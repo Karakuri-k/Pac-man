@@ -23,3 +23,10 @@ UP = (0,-1)
 RIGHT = (1,0)
 DOWN = (0,1)
 LEFT = (-1,0)
+
+#ghost kolonner og rader (IKKE SLETT)
+GHOST_KOLONNE = 0
+RED_GHOST_RAD = 4
+BLUE_GHOST_RAD = 5
+WHITE_GHOST_RAD = 6
+GREEN_GHOST_RAD = 7
