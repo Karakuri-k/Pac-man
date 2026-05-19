@@ -18,9 +18,8 @@ FPS = 60
 
 TILE_SIZE = 32
 
-# directions as (row_delta, col_delta)
-UP = (-1, 0)
-LEFT = (0, -1)
-DOWN = (1, 0)
-RIGHT = (0, 1)
-
+ #directions
+UP = (0,-1)
+RIGHT = (1,0)
+DOWN = (0,1)
+LEFT = (-1,0)

@@ -1,9 +1,8 @@
 from pathlib import Path
 import pygame as pg
 from constants import *
-from board import Board
 
-class PacMan:
+class Ghost:
     IMAGE_FILE = Path(__file__).parent / "sprites" / "pacman2.png"
 
     def getImageSpriteList(self, x_start, y_start, num_frames) -> list[pg.Surface]:
@@ -19,10 +18,12 @@ class PacMan:
         return frames
     
 
-    def __init__(self, row, col):
-        self.pos = (row, col)
+    def __init__(self, row, col, spriteKolonne, spriteRad):
+        frame_width = 16
+        self.row = row
+        self.col = col
 
-        self.frames_idle = self.getImageSpriteList(0, 0, 4)
+        self.frames_idle = self.getImageSpriteList(spriteKolonne * frame_width, spriteRad * frame_width, 4)
         # Bildet vi skal vise til å starte med er idle:
         self.frames = self.frames_idle
         # Om vi vil ha animasjon som går gjennom frames:
@@ -30,24 +31,9 @@ class PacMan:
 
         # Om vi vil speile bildet:
         self.venstre = False
-        self.currentDirection : None|tuple = None
-        self.nextDirection : None|tuple = None
 
-
-
-
-    def move(self, board: Board):
-        if self.nextDirection:
-            if board.is_road(self.pos[0]+self.nextDirection[0], self.pos[1]+self.nextDirection[1]):
-                self.currentDirection = self.nextDirection
-        if self.currentDirection:
-            if board.is_road(self.pos[0]+self.currentDirection[0], self.pos[1]+self.currentDirection[1]):
-                self.pos = tuple(x + y for x, y in zip(self.pos, self.currentDirection))
-        else:
-            pass
 
     def draw(self, surface):
-
         # Få bildet fra en liste av bilder (om du vil bruke animasjon/sprites):
         current_frame_image = self.frames[self.current_frame]
         
@@ -58,7 +44,7 @@ class PacMan:
         # Sørg for at vi tegner midt i "Tile":
         mid = TILE_SIZE // 2
         rect = current_frame_image.get_rect()
-        rect.center = (self.pos[1] * TILE_SIZE + mid , self.pos[0] * TILE_SIZE + mid)
+        rect.center = (self.col * TILE_SIZE + mid , self.row * TILE_SIZE + mid)
 
         # Blit images på skjermen (der self.rect befinner seg):
         surface.blit(current_frame_image, rect)
