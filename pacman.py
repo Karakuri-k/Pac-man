@@ -1,6 +1,7 @@
 from pathlib import Path
 import pygame as pg
 from constants import *
+from board import Board
 
 class PacMan:
     IMAGE_FILE = Path(__file__).parent / "sprites" / "pacman2.png"
@@ -19,8 +20,7 @@ class PacMan:
     
 
     def __init__(self, row, col):
-        self.row = row
-        self.col = col
+        self.pos = (row, col)
 
         self.frames_idle = self.getImageSpriteList(0, 0, 4)
         # Bildet vi skal vise til å starte med er idle:
@@ -30,6 +30,17 @@ class PacMan:
 
         # Om vi vil speile bildet:
         self.venstre = False
+        self.currentDirection : None|tuple = None
+        self.nextDirection : None|tuple = None
+
+
+
+
+    def move(self, direction, board, ):
+        if self.currentDirection:
+            if board.is_road(self.pos + self.currentDirection):
+                self.pos += self.currentDirection
+        else:
 
 
 
@@ -45,7 +56,7 @@ class PacMan:
         # Sørg for at vi tegner midt i "Tile":
         mid = TILE_SIZE // 2
         rect = current_frame_image.get_rect()
-        rect.center = (self.col * TILE_SIZE + mid , self.row * TILE_SIZE + mid)
+        rect.center = (self.pos[1] * TILE_SIZE + mid , self.pos[0] * TILE_SIZE + mid)
 
         # Blit images på skjermen (der self.rect befinner seg):
         surface.blit(current_frame_image, rect)
