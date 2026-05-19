@@ -32,7 +32,8 @@ while running:
     board.draw(vindu)
 
     # TODO: Oppdater objektene våre:
-
+    for ghost in ghosts:
+        ghost.update(board)
 
     # Tegn objektene våre:
     pacman.draw(vindu)
