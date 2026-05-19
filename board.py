@@ -39,8 +39,8 @@ class Board:
                     pg.draw.circle(surface, YELLOW, center, radius)
 
 
-    def is_road(self, row: int, col: int) -> bool:
+    def is_road(self, x: int, y: int) -> bool:
         """Returnerer True hvis posisjonen er fri for vegg."""
-        if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
+        if x < 0 or x >= self.cols or y < 0 or y >= self.rows:
             return False
-        return self.grid[row][col] != '#'
+        return self.grid[y][x] != '#'

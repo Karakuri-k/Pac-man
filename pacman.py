@@ -36,15 +36,13 @@ class PacMan:
 
 
 
-    def move(self, board: Board):
-        if self.nextDirection:
-            if board.is_road(self.pos[0]+self.nextDirection[0], self.pos[1]+self.nextDirection[1]):
-                self.currentDirection = self.nextDirection
+    def move(self, direction, board, ):
         if self.currentDirection:
-            if board.is_road(self.pos[0]+self.currentDirection[0], self.pos[1]+self.currentDirection[1]):
-                self.pos = tuple(x + y for x, y in zip(self.pos, self.currentDirection))
+            if board.is_road(self.pos + self.currentDirection):
+                self.pos += self.currentDirection
         else:
-            pass
+
+
 
     def draw(self, surface):
 
