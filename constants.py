@@ -23,9 +23,10 @@ BLUE_GHOST_RAD = 5
 WHITE_GHOST_RAD = 6
 GREEN_GHOST_RAD = 7
  #directions
-UP = (0,-1)
-RIGHT = (1,0)
-DOWN = (0,1)
-LEFT = (-1,0)
+UP = (-1, 0)
+LEFT = (0, -1)
+DOWN = (1, 0)
+RIGHT = (0, 1)
+
 
 GHOST_KOLONNE = 0
