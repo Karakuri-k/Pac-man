@@ -43,6 +43,8 @@ while running:
     # TODO: Oppdater objektene våre:
     if frames % 10 == 0:
         pacman.move(board)
+    for ghost in ghosts:
+        ghost.update(board)
 
     # Tegn objektene våre:
     pacman.draw(vindu)

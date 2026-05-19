@@ -28,5 +28,9 @@ LEFT = (0, -1)
 DOWN = (1, 0)
 RIGHT = (0, 1)
 
-
+#ghost kolonner og rader (IKKE SLETT)
 GHOST_KOLONNE = 0
+RED_GHOST_RAD = 4
+BLUE_GHOST_RAD = 5
+WHITE_GHOST_RAD = 6
+GREEN_GHOST_RAD = 7

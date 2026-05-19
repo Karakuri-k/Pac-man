@@ -1,6 +1,7 @@
 from pathlib import Path
 import pygame as pg
 from constants import *
+import random as r
 
 class Ghost:
     IMAGE_FILE = Path(__file__).parent / "sprites" / "pacman2.png"
@@ -32,6 +33,41 @@ class Ghost:
         # Om vi vil speile bildet:
         self.venstre = False
 
+        self.x = col * TILE_SIZE + TILE_SIZE // 2
+        self.y = row * TILE_SIZE + TILE_SIZE // 2
+        self.speed = 0.5
+        retninger = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        rd, kl = r.choice(retninger)
+        self.dx = kl * self.speed
+        self.dy = rd * self.speed
+
+
+    def update(self, board):
+        self.x += self.dx
+        self.y += self.dy
+
+        midt_x = self.col * TILE_SIZE + TILE_SIZE // 2
+        midt_y = self.row * TILE_SIZE + TILE_SIZE // 2
+
+        if abs(self.x - midt_x) < self.speed and abs(self.y - midt_y) < self.speed:
+            self.x = midt_x # Ghost x koord er i midten av rute
+            self.y = midt_y # Ghost y koord er i midten av rute
+
+            retninger = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+            r.shuffle(retninger) # mikser random opp listen
+
+            for rd, kl in retninger:
+                ny_rad = self.row + rd
+                ny_kol = self.col + kl
+                if board.is_road(ny_kol, ny_rad):
+                    self.row = ny_rad
+                    self.col = ny_kol
+
+                    # retningsfart
+                    self.dx = kl * self.speed
+                    self.dy = rd * self.speed
+                    break
+
 
     def draw(self, surface):
         # Få bildet fra en liste av bilder (om du vil bruke animasjon/sprites):
@@ -44,7 +80,7 @@ class Ghost:
         # Sørg for at vi tegner midt i "Tile":
         mid = TILE_SIZE // 2
         rect = current_frame_image.get_rect()
-        rect.center = (self.col * TILE_SIZE + mid , self.row * TILE_SIZE + mid)
+        rect.center = (self.x, self.y)
 
         # Blit images på skjermen (der self.rect befinner seg):
         surface.blit(current_frame_image, rect)
