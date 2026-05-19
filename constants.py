@@ -18,10 +18,6 @@ FPS = 60
 
 TILE_SIZE = 32
 
-RED_GHOST_RAD = 4
-BLUE_GHOST_RAD = 5
-WHITE_GHOST_RAD = 6
-GREEN_GHOST_RAD = 7
  #directions
 UP = (-1, 0)
 LEFT = (0, -1)
