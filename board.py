@@ -33,6 +33,10 @@ class Board:
                 rect = pg.Rect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE)
                 if tile == '#':
                     pg.draw.rect(surface, DARK_BLUE, rect, border_radius=5)
+                if tile == '.':
+                    center = (x * TILE_SIZE + TILE_SIZE // 2, y * TILE_SIZE + TILE_SIZE // 2)
+                    radius = TILE_SIZE // 6
+                    pg.draw.circle(surface, YELLOW, center, radius)
 
 
     def is_road(self, x: int, y: int) -> bool:
