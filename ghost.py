@@ -2,7 +2,7 @@ from pathlib import Path
 import pygame as pg
 from constants import *
 
-class PacMan:
+class Ghost:
     IMAGE_FILE = Path(__file__).parent / "sprites" / "pacman2.png"
 
     def getImageSpriteList(self, x_start, y_start, num_frames) -> list[pg.Surface]:
@@ -18,11 +18,12 @@ class PacMan:
         return frames
     
 
-    def __init__(self, row, col):
+    def __init__(self, row, col, spriteKolonne, spriteRad):
+        frame_width = 16
         self.row = row
         self.col = col
 
-        self.frames_idle = self.getImageSpriteList(0, 0, 4)
+        self.frames_idle = self.getImageSpriteList(spriteKolonne * frame_width, spriteRad * frame_width, 4)
         # Bildet vi skal vise til å starte med er idle:
         self.frames = self.frames_idle
         # Om vi vil ha animasjon som går gjennom frames:
@@ -32,9 +33,7 @@ class PacMan:
         self.venstre = False
 
 
-
     def draw(self, surface):
-
         # Få bildet fra en liste av bilder (om du vil bruke animasjon/sprites):
         current_frame_image = self.frames[self.current_frame]
         
