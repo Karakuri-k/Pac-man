@@ -11,10 +11,10 @@ clock = pg.time.Clock()
 
 
 pacman = PacMan(3, 4)
-redGhost = Ghost(5, 4, GHOST_KOLONNE, RED_GHOST_RAD)
-blueGhost = Ghost(8, 11, GHOST_KOLONNE, BLUE_GHOST_RAD)
-whiteGhost = Ghost(1, 7, GHOST_KOLONNE, WHITE_GHOST_RAD)
-greenGhost = Ghost(8, 5, GHOST_KOLONNE, GREEN_GHOST_RAD)
+redGhost = Ghost(5, 4, GHOST_KOLONNE, RED_GHOST_RAD, board)
+blueGhost = Ghost(7, 11, GHOST_KOLONNE, BLUE_GHOST_RAD, board)
+whiteGhost = Ghost(1, 7, GHOST_KOLONNE, WHITE_GHOST_RAD, board)
+greenGhost = Ghost(7, 5, GHOST_KOLONNE, GREEN_GHOST_RAD, board)
 ghosts = [redGhost, blueGhost, whiteGhost, greenGhost]
 
 running = True
