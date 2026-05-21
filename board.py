@@ -35,7 +35,7 @@ class Board:
                     pg.draw.rect(surface, DARK_BLUE, rect, border_radius=5)
                 if tile == '.':
                     center = (x * TILE_SIZE + TILE_SIZE // 2, y * TILE_SIZE + TILE_SIZE // 2)
-                    radius = TILE_SIZE // 6
+                    radius = TILE_SIZE // 6.5
                     pg.draw.circle(surface, YELLOW, center, radius)
 
 
