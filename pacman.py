@@ -20,13 +20,20 @@ class PacMan:
     
 
     def __init__(self, col, row):
+        frame_width = 16
         self.pos = [col * TILE_SIZE, row * TILE_SIZE]
 
         self.frames_idle = self.getImageSpriteList(0, 0, 4)
-        # Bildet vi skal vise til å starte med er idle:
-        self.frames = self.frames_idle
-        # Om vi vil ha animasjon som går gjennom frames:
+
+        self.frames_right = self.getImageSpriteList(0 * frame_width, 0 * frame_width, 2) # Høyre
+        self.frames_left = self.getImageSpriteList(0 * frame_width, 1 * frame_width, 2) # Venstre
+
+        self.frames_up = self.getImageSpriteList(0 * frame_width, 2 * frame_width, 2) # Opp
+        self.frames_down = self.getImageSpriteList(0 * frame_width, 3 * frame_width, 2) # Ned
+
+        self.frames = self.frames_right
         self.current_frame = 0
+        self.animation_timer = 0
 
         # Om vi vil speile bildet:
         self.venstre = False
@@ -56,8 +63,11 @@ class PacMan:
 
     def move(self, board: Board):
         if self.currentDirection:
-            next_x = self.pos[0] + self.currentDirection[1] * self.speed
-            next_y = self.pos[1] + self.currentDirection[0] * self.speed
+            dy = self.currentDirection[0]
+            dx = self.currentDirection[1]
+
+            next_x = self.pos[0] + dx * self.speed
+            next_y = self.pos[1] + dy * self.speed
 
             left = next_x
             right = next_x + TILE_SIZE - 1
@@ -82,6 +92,21 @@ class PacMan:
                 self.pos[0] = next_x
                 self.pos[1] = next_y
 
+                if dx > 0:
+                    self.frames = self.frames_right
+                elif dx < 0:
+                    self.frames = self.frames_left
+                elif dy > 0:
+                    self.frames = self.frames_down
+                elif dy < 0:
+                    self.frames = self.frames_up
+
+                self.animation_timer += 1
+                if self.animation_timer >= 6:
+                    self.animation_timer = 0
+                    self.current_frame = (self.current_frame + 1) % len(self.frames)
+            
+
             if self.is_at_tile_center():
                 col = next_x // TILE_SIZE
                 row = next_y // TILE_SIZE
@@ -93,8 +118,8 @@ class PacMan:
         current_frame_image = self.frames[self.current_frame]
         
         # Speiler bildet hvis det trengs:
-        if self.venstre:
-            current_frame_image = pg.transform.flip(current_frame_image, True, False)
+        #if self.venstre:
+        #    current_frame_image = pg.transform.flip(current_frame_image, True, False)
 
         rect = current_frame_image.get_rect()
         rect.center = (self.pos[0] + TILE_SIZE // 2, self.pos[1] + TILE_SIZE // 2)
