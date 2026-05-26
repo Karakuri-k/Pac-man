@@ -82,6 +82,11 @@ class PacMan:
                 self.pos[0] = next_x
                 self.pos[1] = next_y
 
+            if self.is_at_tile_center():
+                col = next_x // TILE_SIZE
+                row = next_y // TILE_SIZE
+                board.visit(col, row)
+
     def draw(self, surface):
 
         # Få bildet fra en liste av bilder (om du vil bruke animasjon/sprites):

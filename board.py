@@ -3,7 +3,7 @@ from constants import *
 
 class Board:
     def __init__(self):
-        self.grid = [
+        grid_strings = [
             "#################",
             "#...##.....##...#",
             "#.#.###.###.#.#.#",
@@ -20,6 +20,7 @@ class Board:
             "#...##.....##...#",
             "#################",
         ]
+        self.grid = [list(row) for row in grid_strings]
         self.rows = len(self.grid)
         self.cols = len(self.grid[0])
 
@@ -44,3 +45,7 @@ class Board:
         if row < 0 or row >= self.rows or col < 0 or col >= self.cols:
             return False
         return self.grid[row][col] != '#'
+    
+    def visit(self, col, row):
+        if self.grid[row][col] == ".":
+            self.grid[row][col] = " "
