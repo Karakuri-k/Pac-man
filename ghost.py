@@ -19,20 +19,19 @@ class Ghost:
         return frames
     
 
-    def __init__(self, row, col, spriteKolonne, spriteRad, board):
+    def __init__(self, row, col, spriteRad, board):
         frame_width = 16
 
-        self.frames_idle = self.getImageSpriteList(spriteKolonne * frame_width, spriteRad * frame_width, 4)
-        # Bildet vi skal vise til å starte med er idle:
-        self.frames = self.frames_idle
-        # Om vi vil ha animasjon som går gjennom frames:
+        self.frames_right = self.getImageSpriteList(0 * frame_width, spriteRad * frame_width, 2) # Høyre
+        self.frames_left = self.getImageSpriteList(2 * frame_width, spriteRad * frame_width, 2) # Venstre
+
+        self.frames_up = self.getImageSpriteList(4 * frame_width, spriteRad * frame_width, 2) # Opp
+        self.frames_down = self.getImageSpriteList(6 * frame_width, spriteRad * frame_width, 2) # Ned
+
+        self.frames = self.frames_right
         self.current_frame = 0
+        self.animation_timer = 0
 
-        # Om vi vil speile bildet:
-        self.venstre = False
-
-        # self.row = row
-        # self.col = col
         self.x = col * TILE_SIZE + TILE_SIZE // 2
         self.y = row * TILE_SIZE + TILE_SIZE // 2
         self.speed = 1.5
@@ -49,6 +48,22 @@ class Ghost:
     def update(self, board):
         self.x += self.dx
         self.y += self.dy
+
+        # Endrer retning på spøkelse (animasjon)
+        if self.dx > 0:
+            self.frames = self.frames_right
+        elif self.dx < 0:
+            self.frames = self.frames_left
+        elif self.dy > 0:
+            self.frames = self.frames_down
+        elif self.dy < 0:
+            self.frames = self.frames_up
+
+        # Endrer spøkelse detalj (animasjon)
+        self.animation_timer += 1
+        if self.animation_timer >= 10: # per 10ende frame
+            self.animation_timer = 0
+            self.current_frame = (self.current_frame + 1) % len(self.frames)
 
         col = int(self.x // TILE_SIZE)
         row = int(self.y // TILE_SIZE)
@@ -75,52 +90,11 @@ class Ghost:
                         self.dx = kl * self.speed
                         self.dy = rd * self.speed
                         break
-
-    '''def update(self, board):
-        self.x += self.dx
-        self.y += self.dy
-
-        col = int(self.x // TILE_SIZE)
-        row = int(self.y // TILE_SIZE)
-
-        if not board.is_road(row, col):
-            retninger = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-            retning = r.choice(retninger)
-            self.dx *= retning[0]
-            self.dy *= retning[1]
-
-        # midt_x = col * TILE_SIZE + TILE_SIZE // 2
-        # midt_y = row * TILE_SIZE + TILE_SIZE // 2
-
-
-        
-        if abs(self.x - midt_x) < self.speed and abs(self.y - midt_y) < self.speed:
-            self.x = midt_x # Ghost x koord er i midten av rute
-            self.y = midt_y # Ghost y koord er i midten av rute
-
-            retninger = [(-1, 0), (1, 0), (0, -1), (0, 1)]
-            r.shuffle(retninger) # mikser random opp listen
-
-            for rd, kl in retninger:
-                ny_rad = self.row + rd
-                ny_kol = self.col + kl
-                if board.is_road(ny_rad, ny_kol):
-                    self.row = ny_rad
-                    self.col = ny_kol
-
-                    # retningsfart
-                    self.dx = kl * self.speed
-                    self.dy = rd * self.speed
-                    break
-        '''
+                    
 
     def draw(self, surface):
         # Få bildet fra en liste av bilder (om du vil bruke animasjon/sprites):
         current_frame_image = self.frames[self.current_frame]
-        
-        # Speiler bildet hvis det trengs:
-        if self.venstre:
-            current_frame_image = pg.transform.flip(current_frame_image, True, False)
 
         # Sørg for at vi tegner midt i "Tile":
         rect = current_frame_image.get_rect()
