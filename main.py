@@ -18,7 +18,6 @@ greenGhost = Ghost(7, 5, GREEN_GHOST_RAD, board)
 ghosts = [redGhost, blueGhost, whiteGhost, greenGhost]
 
 running = True
-frames = 0
 while running:
     for event in pg.event.get():
         if event.type == pg.QUIT:
@@ -41,8 +40,8 @@ while running:
     board.draw(vindu)
 
     # TODO: Oppdater objektene våre:
-    if frames % 10 == 0:
-        pacman.move(board)
+    pacman.checkDirection(board)
+    pacman.move(board)
     for ghost in ghosts:
         ghost.update(board)
 
@@ -55,7 +54,6 @@ while running:
     # Har alltid disse med til slutt:
     pg.display.flip()
     clock.tick(FPS)
-    frames += 1
 
 # While running er slutt: Avslutt pygame på en "ryddig måte":
 pg.quit()
